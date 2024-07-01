@@ -13,19 +13,24 @@ public class Realty {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column
     @NotBlank
     private String region;
+
     @Column
     @NotBlank
     private String city;
+
     @Column
     @NotBlank
     private String house;
+
     @Column(name = "realty_type")
     @Enumerated(EnumType.STRING)
     private RealtyType realtyType;
-    @OneToOne(mappedBy = "realty")
+
+    @OneToMany(mappedBy = "realty")
     private Announcement announcement;
 
 }

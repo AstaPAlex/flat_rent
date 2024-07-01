@@ -16,14 +16,18 @@ public class Announcement {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
     @Column
     @DecimalMin(value = "0.01")
     private BigDecimal price;
+
     @Column(name = "is_active")
     private Boolean isActive;
-    @OneToOne
+
+    @OneToMany
     @JoinColumn(name = "realty_id")
     private Realty realty;
+
     @OneToMany(mappedBy = "announcement")
     private Set<Booking> bookingList;
 
