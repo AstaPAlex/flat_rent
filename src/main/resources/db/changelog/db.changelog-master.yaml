@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/202407042320-create-realties.xml
+  - include:
+      file: db/changelog/202407042325-create-announcements.xml
+  - include:
+      file: db/changelog/202407042330-create-booking.xml
