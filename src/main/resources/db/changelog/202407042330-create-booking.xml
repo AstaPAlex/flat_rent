@@ -1,0 +1,14 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="202407042330-create-booking.xml" author="Astapov Alexey">
+        <sql>
+            create table if not exists booking(id bigserial primary key,
+            date_start date not null,
+            count_day_booking int check(count_day_booking > 0),
+            client varchar(100) unique not null,
+            email varchar(100),
+            id_announcement bigint references announcements(id),
+            price_booking numeric(10,2) check(price_booking >= 0.01));
+        </sql>
+    </changeSet>
+</databaseChangeLog>

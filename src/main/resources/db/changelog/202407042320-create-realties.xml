@@ -1,0 +1,12 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="202407042320-create-realties.xml" author="Astapov Alexey">
+        <sql>
+            create table if not exists realties (id bigserial primary key,
+            region varchar(100) not null,
+            city varchar(100) not null,
+            house varchar(100) not null,
+            realty_type varchar(100) not null);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

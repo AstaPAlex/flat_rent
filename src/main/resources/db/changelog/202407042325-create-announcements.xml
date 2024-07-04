@@ -1,0 +1,11 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet id="202407042325-create-announcements.xml" author="Astapov Alexey">
+        <sql>
+            create table if not exists announcements(id bigserial primary key,
+            price numeric(10,2) check(price >= 0.01),
+            is_active bool not null,
+            realty_id bigint references realties(id));
+        </sql>
+    </changeSet>
+</databaseChangeLog>
