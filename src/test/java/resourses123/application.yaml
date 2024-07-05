@@ -1,4 +1,8 @@
 spring:
+  springdoc:
+    swagger-ui:
+      disable-swagger-default-url: true
+      path: /myproject
   jpa:
     hibernate:
       show-sql: true

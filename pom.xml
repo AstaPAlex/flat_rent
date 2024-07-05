@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.javaacademy</groupId>
 	<artifactId>flat_rent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>flat_rent</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -57,6 +57,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mapstruct</groupId>
