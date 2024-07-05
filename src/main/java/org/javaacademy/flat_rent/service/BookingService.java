@@ -32,7 +32,7 @@ public class BookingService {
         return bookingMapper.convertToDto(booking);
     }
 
-
+    @Transactional
     public Set<LocalDate> getDatesFreeInMonth(DatesFreeFromBookingDtoRq datesFreeDto) {
         try {
             Set<Booking> bookings = bookingRepository.findAllByAnnouncement_Realty_Id(datesFreeDto.getIdRealty());
