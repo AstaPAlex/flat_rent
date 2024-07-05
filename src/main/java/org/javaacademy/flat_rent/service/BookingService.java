@@ -6,6 +6,7 @@ import org.javaacademy.flat_rent.dto.booking.BookingDtoRq;
 import org.javaacademy.flat_rent.dto.booking.DatesFreeFromBookingDtoRq;
 import org.javaacademy.flat_rent.entity.Announcement;
 import org.javaacademy.flat_rent.entity.Booking;
+import org.javaacademy.flat_rent.exception.NotFoundAnnouncementException;
 import org.javaacademy.flat_rent.mapper.BookingMapper;
 import org.javaacademy.flat_rent.repository.BookingRepository;
 import org.springframework.stereotype.Service;
@@ -33,16 +34,21 @@ public class BookingService {
 
 
     public Set<LocalDate> getDatesFreeInMonth(DatesFreeFromBookingDtoRq datesFreeDto) {
-        Set<Booking> bookings = bookingRepository.findAllByAnnouncement_Realty_Id(datesFreeDto.getIdRealty());
-        int countDaysOfYearMonth = YearMonth.of(datesFreeDto.getYear(), Integer.valueOf(datesFreeDto.getMonth()))
-                .lengthOfMonth();
+        try {
+            Set<Booking> bookings = bookingRepository.findAllByAnnouncement_Realty_Id(datesFreeDto.getIdRealty());
+            int countDaysOfYearMonth = YearMonth.of(datesFreeDto.getYear(), Integer.valueOf(datesFreeDto.getMonth()))
+                    .lengthOfMonth();
 
-        Set<LocalDate> desiredDates = getDates(
-                LocalDate.of(datesFreeDto.getYear(), datesFreeDto.getMonth(), 1),
-                countDaysOfYearMonth);
-        Set<LocalDate> bookingDates = getDatesFromBookings(bookings);
+            Set<LocalDate> desiredDates = getDates(
+                    LocalDate.of(datesFreeDto.getYear(), datesFreeDto.getMonth(), 1),
+                    countDaysOfYearMonth);
+            Set<LocalDate> bookingDates = getDatesFromBookings(bookings);
 
-        return  getFreeDates(desiredDates, bookingDates);
+            return  getFreeDates(desiredDates, bookingDates);
+        } catch (Exception e) {
+            throw new NotFoundAnnouncementException();
+        }
+
     }
 
     private Set<LocalDate> getDates(LocalDate dateStart, Integer countDay) {
@@ -65,7 +71,12 @@ public class BookingService {
 
     @Transactional
     public boolean createBooking(BookingDtoRq bookingDto) {
-        Announcement announcementById = announcementService.getAnnouncementById(bookingDto.getAnnouncement_id());
+        Announcement announcementById;
+        try {
+            announcementById = announcementService.getAnnouncementById(bookingDto.getAnnouncementId());
+        } catch (Exception e) {
+            throw new NotFoundAnnouncementException();
+        }
         Set<Booking> bookings = bookingRepository.findAllByAnnouncement_Id(announcementById.getId());
         if (isPossibilityBooking(bookingDto, bookings)) {
             Booking booking = Booking.builder()

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
-import static org.springframework.http.HttpStatus.ACCEPTED;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
@@ -24,7 +23,6 @@ public class RealtyController {
     }
 
     @GetMapping
-    @ResponseStatus(ACCEPTED)
     public Set<RealtyDto> getRealtiesByCityAndRealtyType(@RequestParam Integer startPosition,
                                                          @RequestParam Integer endPosition,
                                                          @RequestBody RealtyDtoFilterRq realtyDtoFilterRq) {

@@ -6,8 +6,8 @@ import org.javaacademy.flat_rent.dto.announcement.AnnouncementDtoRs;
 import org.javaacademy.flat_rent.dto.announcement.AnnouncementFilterDtoRq;
 import org.javaacademy.flat_rent.entity.Announcement;
 import org.javaacademy.flat_rent.entity.Realty;
+import org.javaacademy.flat_rent.exception.NotFoundRealtyException;
 import org.javaacademy.flat_rent.mapper.AnnouncementMapper;
-import org.javaacademy.flat_rent.repository.AnnouncementPageRepository;
 import org.javaacademy.flat_rent.repository.AnnouncementRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,21 +22,25 @@ import java.util.stream.Collectors;
 public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final RealtyService realtyService;
-    private final AnnouncementPageRepository announcementPageRepository;
     private final AnnouncementMapper announcementMapper;
 
     public void createAnnouncement(AnnouncementDto announcementDto) {
-        Realty realtyById = realtyService.getRealtyById(announcementDto.getRealtyId());
-        Announcement announcement = announcementMapper.convertToEntity(announcementDto);
-        announcement.setRealty(realtyById);
-        announcementRepository.save(announcement);
+        try {
+            Realty realtyById = realtyService.getRealtyById(announcementDto.getRealtyId());
+            Announcement announcement = announcementMapper.convertToEntity(announcementDto);
+            announcement.setRealty(realtyById);
+            announcementRepository.save(announcement);
+        } catch (Exception e) {
+            throw new NotFoundRealtyException(e);
+        }
+
     }
 
     public Set<AnnouncementDtoRs> getAnnouncementByCityAndRoomsAndPriceRange(AnnouncementFilterDtoRq announcementFilterDtoRq,
                                                                              Integer startPosition,
                                                                              Integer endPosition) {
         Pageable pageRequest = PageRequest.of(startPosition, endPosition);
-        return announcementPageRepository.findAllByRealty_CityAndRealty_RealtyTypeAndPriceBetween(
+        return announcementRepository.findAllByRealty_CityAndRealty_RealtyTypeAndPriceBetween(
                         announcementFilterDtoRq.getCity(),
                         announcementFilterDtoRq.getRealtyType(),
                         announcementFilterDtoRq.getStartPrice(),

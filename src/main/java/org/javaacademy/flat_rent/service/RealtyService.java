@@ -5,7 +5,6 @@ import org.javaacademy.flat_rent.dto.realty.RealtyDto;
 import org.javaacademy.flat_rent.dto.realty.RealtyDtoFilterRq;
 import org.javaacademy.flat_rent.entity.Realty;
 import org.javaacademy.flat_rent.mapper.RealtyMapper;
-import org.javaacademy.flat_rent.repository.RealtyPageRepository;
 import org.javaacademy.flat_rent.repository.RealtyRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +17,6 @@ import java.util.Set;
 public class RealtyService {
     private final RealtyRepository realtyRepository;
     private final RealtyMapper realtyMapper;
-    private final RealtyPageRepository realtyPageRepository;
 
     public void createRealty(RealtyDto realtyDto) {
         Realty realty = realtyMapper.convertToEntity(realtyDto);
@@ -29,7 +27,7 @@ public class RealtyService {
                                                              Integer endPosition,
                                                              RealtyDtoFilterRq realtyDtoFilterRq) {
         Pageable pageRequest = PageRequest.of(startPosition, endPosition);
-        return realtyPageRepository.findAllByCityAndRealtyType(
+        return realtyRepository.findAllByCityAndRealtyType(
                         realtyDtoFilterRq.getCity(),
                         realtyDtoFilterRq.getRealtyType(),
                         pageRequest)

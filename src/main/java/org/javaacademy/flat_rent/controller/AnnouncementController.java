@@ -1,5 +1,4 @@
 package org.javaacademy.flat_rent.controller;
-
 import lombok.RequiredArgsConstructor;
 import org.javaacademy.flat_rent.dto.announcement.AnnouncementDto;
 import org.javaacademy.flat_rent.dto.announcement.AnnouncementDtoRs;
@@ -25,7 +24,6 @@ public class AnnouncementController {
     }
 
     @GetMapping
-    @ResponseStatus(ACCEPTED)
     public Set<AnnouncementDtoRs> getAnnouncements(@RequestParam Integer startPosition,
                                                    @RequestParam Integer endPosition,
                                                    @RequestBody AnnouncementFilterDtoRq announcementFilterDtoRq) {
